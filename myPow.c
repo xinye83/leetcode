@@ -1,4 +1,7 @@
 double myPow(double x, int n) {
+    
+    // Implement pow(x, n).
+    
     if (n==0) {
         return 1.0;
     }
