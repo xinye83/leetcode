@@ -1,4 +1,8 @@
 int divide(int dividend, int divisor) {
+    
+    // Divide two integers without using multiplication, division and mod operator.
+    // If it is overflow, return MAX_INT.
+    
     int s,ans,k;
     long d1,d2,s1[35],s2[35];
     
