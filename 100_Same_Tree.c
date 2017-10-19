@@ -19,5 +19,20 @@ bool isSameTree(struct TreeNode* p, struct TreeNode* q) {
         return false;
     }
     
-    return (p->val==q->val && isSameTree(p->left,q->left) && isSameTree(p->right,q->right));
+    if (p->val!=q->val){
+        return false;
+    }
+    else {
+        if (!isSameTree(p->left,q->left)) {
+            return false;
+        }
+        else {
+            if (!isSameTree(p->right,q->right)) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    }
 }
