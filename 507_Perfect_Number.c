@@ -11,7 +11,7 @@ Note: The input number n will not exceed 100,000,000. (1e8)
 */
 
 bool checkPerfectNumber(int num) {
-    if (num<4) {
+    if (num<6) {
         return 0;
     }
     
