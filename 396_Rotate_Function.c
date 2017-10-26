@@ -21,18 +21,9 @@ F(3) = (0 * 3) + (1 * 2) + (2 * 6) + (3 * 4) = 0 + 2 + 12 + 12 = 26
 
 So the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.
 */
+
 int max(int a, int b) {
     return (a>=b) ? (a): (b);
-}
-
-int evalfun(int* C, int CSize) {
-    int e=0;
-    
-    for (int i=1;i<=CSize;i++) {
-        e+=i*C[i-1];
-    }
-    
-    return e;
 }
 
 int maxRotateFunction(int* A, int ASize) {
@@ -40,54 +31,20 @@ int maxRotateFunction(int* A, int ASize) {
         return 0;
     }
     
-    int* B = (int*) malloc((2*ASize-2)*sizeof(int));
-    for (int i=0;i<ASize-2;i++) {
-        B[i]=A[i+2];
-        B[i+ASize]=B[i];
-    }
-    B[ASize-2]=A[0];
-    B[ASize-1]=A[1];
+    int sumA=0;
+    int f=0;
     
-    int val=INT_MIN;
     for (int i=0;i<ASize;i++) {
-        val=max(val,evalfun(B,ASize-1));
-        B++;
+        sumA+=A[i];
+        f+=i*A[i];
     }
     
-    return val;
-}
-int max(int a, int b) {
-    return (a>=b) ? (a): (b);
-}
-
-int evalfun(int* C, int CSize) {
-    int e=0;
+    int maxval=f;
     
-    for (int i=1;i<=CSize;i++) {
-        e+=i*C[i-1];
+    for (int i=ASize-1;i>=0;i--) {
+        f+=sumA-ASize*A[i];
+        maxval=max(maxval,f);
     }
     
-    return e;
-}
-
-int maxRotateFunction(int* A, int ASize) {
-    if (ASize<=1) {
-        return 0;
-    }
-    
-    int* B = (int*) malloc((2*ASize-2)*sizeof(int));
-    for (int i=0;i<ASize-2;i++) {
-        B[i]=A[i+2];
-        B[i+ASize]=B[i];
-    }
-    B[ASize-2]=A[0];
-    B[ASize-1]=A[1];
-    
-    int val=INT_MIN;
-    for (int i=0;i<ASize;i++) {
-        val=max(val,evalfun(B,ASize-1));
-        B++;
-    }
-    
-    return val;
+    return maxval;
 }
