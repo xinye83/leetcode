@@ -10,8 +10,20 @@ Note:
 (4) The nth super ugly number is guaranteed to fit in a 32-bit signed integer.
 */
 
-int cmpfunc (const void * a, const void * b) {
-   return ( *(int*)a - *(int*)b );
+int min(int* values, int valuesSize) {
+    int min=values[0];
+    
+    if (valuesSize==1) {
+        return min;
+    }
+    
+    for (int i=1;i<valuesSize;i++) {
+        if (values[i]<min) {
+            min=values[i];
+        }
+    }
+    
+    return min;
 }
 
 int nthSuperUglyNumber(int n, int* primes, int primesSize) {
@@ -21,28 +33,27 @@ int nthSuperUglyNumber(int n, int* primes, int primesSize) {
     
     int* superuglynum = (int*) malloc(n*sizeof(int));
     int* index = (int*) malloc(primesSize*sizeof(int));
-    int* values0 = (int*) malloc(primesSize*sizeof(int));
-    int* values1 = (int*) malloc(primesSize*sizeof(int));
+    int* values = (int*) malloc(primesSize*sizeof(int));
     
     superuglynum[0]=1;
     
     for (int i=1;i<n;i++) {
         
         for (int j=0;j<primesSize;j++) {
-            values0[j]=primes[j]*superuglynum[index[j]];
-            values1[j]=values0[j];
+            if (i==1) {
+                index[j]=0;
+            }
+            values[j]=primes[j]*superuglynum[index[j]];
         }
         
-        qsort(values1,primesSize,sizeof(int),cmpfunc);    
-        
-        superuglynum[i]=values1[0];
+        superuglynum[i]=min(values,primesSize);
         
         if (i==n-1) {
             break;
         }
         
         for (int j=0;j<primesSize;j++) {
-            if (superuglynum[i]==values0[j]) {
+            if (superuglynum[i]==values[j]) {
                 index[j]++;
             }
         }
