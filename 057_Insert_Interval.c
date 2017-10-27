@@ -24,6 +24,18 @@ This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
  * Note: The returned array must be malloced, assume caller calls free().
  */
 
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ * };
+ */
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
 bool overlap(struct Interval interval1, struct Interval interval2) {
     return !(interval1.start > interval2.end || interval1.end < interval2.start);
 }
@@ -55,10 +67,22 @@ struct Interval* insert(struct Interval* intervals, int intervalsSize, struct In
     
     while (!overlap(intervals[i1+1],newInterval) && intervals[i1+1].end < newInterval.start) {
         i1++;
+        newIntervals[i1] = intervals[i1];
     }
     
     i2=i1+1;
+    
+    newIntervals[i1+1] = newInterval;
     while (overlap(intervals[i2],newInterval)) {
+        
+        if (intervals[i2].start < newIntervals[i1+1].start) {
+            newIntervals[i1+1].start = intervals[i2].start;
+        }
+        
+        if (intervals[i2].end > newIntervals[i1+1].end) {
+            newIntervals[i1+1].end = intervals[i2].end;
+        }
+        
         i2++;
         if (i2==intervalsSize) {
             break;
@@ -68,22 +92,6 @@ struct Interval* insert(struct Interval* intervals, int intervalsSize, struct In
     // 0 ~ i1 and i2 ~ intervalsSize-1 are not overlaping with newInterval
     // i1+1 ~ i2-1 overlap with newInterval
     *returnSize = intervalsSize-i2+i1+2;
-    
-    if (i1>=0) {
-        for (int i=0;i<=i1;i++) {
-            newIntervals[i] = intervals[i];
-        }
-    }
-    
-    if (i2-i1!=1) {
-        (intervals[i1+1].start >= newInterval.start) ? \
-            (newIntervals[i1+1].start = newInterval.start): (newIntervals[i1+1].start = intervals[i1+1].start);
-        (intervals[i2-1].end >= newInterval.end) ? \
-            (newIntervals[i1+1].end = intervals[i2-1].end): (newIntervals[i1+1].end = newInterval.end);
-    }
-    else {
-        newIntervals[i1+1]=newInterval;
-    }
     
     if (i2<intervalsSize) {
         for (int i=i2;i<intervalsSize;i++) {
