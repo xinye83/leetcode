@@ -24,18 +24,6 @@ This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
  * Note: The returned array must be malloced, assume caller calls free().
  */
 
-/**
- * Definition for an interval.
- * struct Interval {
- *     int start;
- *     int end;
- * };
- */
-/**
- * Return an array of size *returnSize.
- * Note: The returned array must be malloced, assume caller calls free().
- */
-
 bool overlap(struct Interval interval1, struct Interval interval2) {
     return !(interval1.start > interval2.end || interval1.end < interval2.start);
 }
