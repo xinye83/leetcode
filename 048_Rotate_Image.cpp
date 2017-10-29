@@ -43,16 +43,6 @@ rotate the input matrix in-place such that it becomes:
 
 class Solution {
 public:
-    void rotate_4_elements(vector<vector<int>>& matrix, int n, int i, int j) {
-        // (i,j) (j,n-1-i) (n-1-i,n-1-j) (n-1-j,i)
-        int temp = matrix[i][j];
-
-        matrix[i][j] = matrix[n-1-j][i];
-        matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
-        matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
-        matrix[j][n-1-i] = temp;
-    }
-    
     void rotate(vector<vector<int>>& matrix) {
         int n = matrix.size();
         
@@ -60,11 +50,18 @@ public:
             return;
         }
         
+        int temp;
         // n/2 x n/2     if n%2 == 0
         // n/2 x (n/2+1) if n%2 == 0
         for (int i = 0; i < n/2; i++) {
             for (int j = 0; j < (n+1)/2; j++) {
-                rotate_4_elements(matrix,n,i,j);
+                // (i,j) (j,n-1-i) (n-1-i,n-1-j) (n-1-j,i)
+                temp = matrix[i][j];
+
+                matrix[i][j] = matrix[n-1-j][i];
+                matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
+                matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
+                matrix[j][n-1-i] = temp;
             }
         }
     }
